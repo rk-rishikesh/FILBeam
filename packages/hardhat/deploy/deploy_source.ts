@@ -39,8 +39,8 @@ const deployYourContract: DeployFunction = async function (
     axelarGatewayAddress = "0xe432150cce91c13a887f7D836923d5597adD8E31";
     axelarGasReceiver = "0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6";
   } else if (flowNetwork) {
-    axelarGatewayAddress = "0x8626f6940e2eb28930efb4cef49b2d1f2c9c1199";
-    axelarGasReceiver = "0x1a920B29eBD437074225cAeE44f78FC700B27a5d";
+    axelarGatewayAddress = "0xe432150cce91c13a887f7D836923d5597adD8E31";
+    axelarGasReceiver = "0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6";
   } else if (filecoinNetwork) {
     axelarGatewayAddress = "0x999117D44220F33e0441fbAb2A5aDB8FF485c54D";
     axelarGasReceiver = "0xbe406f0189a0b4cf3a05c286473d23791dd44cc6";
@@ -66,7 +66,7 @@ const deployYourContract: DeployFunction = async function (
     "OnRampSource",
     deployer
   );
-  console.log("👋 Deployed OnRampSource at:", onRampSource.address);
+  console.log("👋 Deployed OnRampSource:", onRampSource);
 };
 
 export default deployYourContract;
