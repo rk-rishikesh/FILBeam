@@ -65,6 +65,21 @@ const evmNetworks = [
     rpcUrls: ["https://rpc.sepolia.linea.build"],
     vanityName: "Filecoin",
   },
+  {
+    blockExplorerUrls: ["https://etherscan.io/"],
+    chainId: 545,
+    chainName: "Flow Testnet",
+    iconUrls: ["https://cryptologos.cc/logos/filecoin-fil-logo.png"],
+    name: "Flow Testnet",
+    nativeCurrency: {
+      decimals: 18,
+      name: "FLOW",
+      symbol: "FLOW",
+    },
+    networkId: 545,
+    rpcUrls: ["https://rpc.sepolia.linea.build"],
+    vanityName: "Flow",
+  },
 ];
 
 export default function RootLayout({
