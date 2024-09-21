@@ -31,7 +31,7 @@ export default function Main() {
   console.log(user);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black flex flex-col items-center justify-center text-white">
+    <div className="min-h-screen bg-black flex flex-col items-center justify-center text-white">
       <div className="flex flex-col items-center justify-center text-center">
         {user ? (
           <SectionUploadFile />
@@ -45,7 +45,7 @@ export default function Main() {
             <h1 className="text-4xl font-bold mb-4">Connecting Chains</h1>
             <p className="text-lg mb-16">
               Decentralized Data Storage for{" "}
-              <span className="text-blue-400">everychain</span>.
+              <span className="text-yellow-200">everychain</span>.
             </p>
 
             {isLoading ? <Spinner /> : <DynamicWidget />}
