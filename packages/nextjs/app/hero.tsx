@@ -2,9 +2,11 @@
 import { useEffect, useState, useRef } from "react";
 import {
   DynamicWidget,
-  useTelegramLogin,
   useDynamicContext,
 } from "../lib/dynamic";
+import { CONTRACTABI, CONTRACTADDRESS_LINEA } from "./contractDetails";
+// import { useWriteContract } from 'wagmi'
+import { ethers } from 'ethers';
 
 export default function SectionUploadFile() {
   return (
@@ -17,7 +19,6 @@ export default function SectionUploadFile() {
 
 export function Hero() {
   const { sdkHasLoaded } = useDynamicContext();
-
   const [category, setCategory] = useState("Rabbit");
 
   const [step, setStep] = useState(0);
@@ -85,12 +86,13 @@ export function Hero() {
     setCategory("Cat");
   }
 
-  const back =() => {
+  const back = () => {
     setStep(0);
   }
 
-  const uploadFile = () => {
+  const uploadFile = async () => {
     setStep(1);
+    uploadToFilecoin()
   }
   const capture = () => {
     openCamera()
@@ -106,6 +108,27 @@ export function Hero() {
   }, [sdkHasLoaded]);
 
 
+  const uploadToFilecoin = async () => {
+    // writeContract({
+    //   address: CONTRACTADDRESS_LINEA,
+    //   CONTRACTABI,
+    //   functionName: 'offerData',
+    //   args: [0, ["0x62616761366561347365617170693735756d6573616435766c797a7966363676627a6e746f617665346265626d6b6371753466366e7136726368687833636b71", 8388608, "https://data-depot.lighthouse.storage/api/download/download_car?fileId=5633792f-20b2-46f4-bcaa-7747889c3c62.car", 100, "0xb4f9b6b019e75cbe51af4425b2fc12797e2ee2a1"], filecoin - 2
+    //     , "0x3df116c1ed8038646480bac8a6e835b0e7c51261"],
+    // })
+    if (window.ethereum) {
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+    }
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(CONTRACTADDRESS_LINEA, CONTRACTABI, signer);
+
+    const tx = await contract.offerData(["0x62616761366561347365617170693735756d6573616435766c797a7966363676627a6e746f617665346265626d6b6371753466366e7136726368687833636b71", 8388608, "https://data-depot.lighthouse.storage/api/download/download_car?fileId=5633792f-20b2-46f4-bcaa-7747889c3c62.car", 100, "0xb4f9b6b019e75cbe51af4425b2fc12797e2ee2a1"], "filecoin-2"
+      , "0x3df116c1ed8038646480bac8a6e835b0e7c51261");
+    await tx.wait();
+
+  }
 
   return (
     <div className="min-h-screen bg-black flex flex-col text-white justify-center">
@@ -222,7 +245,7 @@ export function Hero() {
                               className="w-20 h-20 bg-white rounded-full shadow-lg -mt-12 border border-8 border-[#E0E0E2]"
                               onClick={back}
                             >
-                              <img className="rounded-full" src="https://dictionary.cambridge.org/images/thumb/cross_noun_002_09265.jpg?version=6.0.31"/>
+                              <img className="rounded-full" src="https://dictionary.cambridge.org/images/thumb/cross_noun_002_09265.jpg?version=6.0.31" />
                             </div>
                           </div>
                           <div className="absolute bottom-4 -right-[5%] transform -translate-x-1/2 flex items-center justify-center">

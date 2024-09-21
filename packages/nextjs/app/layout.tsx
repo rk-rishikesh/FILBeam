@@ -81,15 +81,15 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <DynamicContextProvider
-        settings={{
-          environmentId: dynamicEnvId,
-          walletConnectors: [EthereumWalletConnectors],
-          overrides: { evmNetworks },
-        }}
-      >
-        <body className={inter.className}>{children}</body>
-      </DynamicContextProvider>
+          <DynamicContextProvider
+            settings={{
+              environmentId: dynamicEnvId,
+              walletConnectors: [EthereumWalletConnectors],
+              overrides: { evmNetworks },
+            }}
+          >
+            <body className={inter.className}>{children}</body>
+          </DynamicContextProvider>
     </html>
   );
 }
