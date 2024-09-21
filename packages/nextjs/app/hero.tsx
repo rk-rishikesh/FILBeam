@@ -120,7 +120,7 @@ export function Hero() {
       await window.ethereum.request({ method: 'eth_requestAccounts' });
     }
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider = new ethers.providers.Web3Provider((window as any).ethereum.request);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(CONTRACTADDRESS_LINEA, CONTRACTABI, signer);
 
