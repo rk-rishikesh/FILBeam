@@ -34,9 +34,9 @@ export default function Main() {
             <img src="/logo.png" alt="logo" />
           </div>
         </div>
-        <h1 className="text-4xl font-bold mb-4">Onboard the world</h1>
+        <h1 className="text-4xl font-bold mb-4">Connecting Chains</h1>
         <p className="text-lg mb-16">
-          Web3 login for <span className="text-blue-400">everyone</span>.
+          Decentralized Data Storage for <span className="text-blue-400">everychain</span>.
         </p>
 
         {isLoading ? <Spinner /> : <DynamicWidget />}
