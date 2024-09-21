@@ -5,7 +5,7 @@ import {
   useTelegramLogin,
   useDynamicContext,
 } from "../lib/dynamic";
-
+import Hero from "./hero";
 import Spinner from "./Spinner";
 
 export default function Main() {
@@ -29,17 +29,23 @@ export default function Main() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black flex flex-col items-center justify-center text-white">
       <div className="flex flex-col items-center justify-center text-center">
-        <div className="mb-6">
-          <div className="inline-flex items-center justify-center">
-            <img src="/logo.png" alt="logo" />
-          </div>
-        </div>
-        <h1 className="text-4xl font-bold mb-4">Connecting Chains</h1>
-        <p className="text-lg mb-16">
-          Decentralized Data Storage for <span className="text-blue-400">everychain</span>.
-        </p>
+        {user ? <Hero /> :
 
-        {isLoading ? <Spinner /> : <DynamicWidget />}
+          <>
+            <div className="mb-6">
+              <div className="inline-flex items-center justify-center">
+                <img src="/logo.png" alt="logo" />
+              </div>
+            </div>
+            <h1 className="text-4xl font-bold mb-4">Connecting Chains</h1>
+            <p className="text-lg mb-16">
+              Decentralized Data Storage for <span className="text-blue-400">everychain</span>.
+            </p>
+
+            {isLoading ? <Spinner /> : <DynamicWidget />}
+          </>}
+
+
       </div>
     </div>
   );
