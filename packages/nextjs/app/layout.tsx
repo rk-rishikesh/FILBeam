@@ -69,7 +69,7 @@ const evmNetworks = [
     blockExplorerUrls: ["https://etherscan.io/"],
     chainId: 545,
     chainName: "Flow Testnet",
-    iconUrls: ["https://cryptologos.cc/logos/filecoin-fil-logo.png"],
+    iconUrls: ["https://cryptologos.cc/logos/flow-flow-logo.png"],
     name: "Flow Testnet",
     nativeCurrency: {
       decimals: 18,
