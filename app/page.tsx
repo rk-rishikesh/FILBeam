@@ -5,16 +5,18 @@ import {
   useTelegramLogin,
   useDynamicContext,
 } from "../lib/dynamic";
-import Hero from "./hero";
+import SectionUploadFile from "./hero";
 import Spinner from "./Spinner";
 
 export default function Main() {
-  const { sdkHasLoaded, user } = useDynamicContext();
+  const { sdkHasLoaded, user, setShowAuthFlow } = useDynamicContext();
   const { telegramSignIn } = useTelegramLogin();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!sdkHasLoaded) return;
+    if (!sdkHasLoaded) {
+      return;
+    }
 
     const signIn = async () => {
       if (!user) {
@@ -24,13 +26,16 @@ export default function Main() {
     };
 
     signIn();
-  }, [sdkHasLoaded]);
+  }, [sdkHasLoaded, user, telegramSignIn]);
+
+  console.log(user);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black flex flex-col items-center justify-center text-white">
       <div className="flex flex-col items-center justify-center text-center">
-        {user ? <Hero /> :
-
+        {user ? (
+          <SectionUploadFile />
+        ) : (
           <>
             <div className="mb-6">
               <div className="inline-flex items-center justify-center">
@@ -39,13 +44,13 @@ export default function Main() {
             </div>
             <h1 className="text-4xl font-bold mb-4">Connecting Chains</h1>
             <p className="text-lg mb-16">
-              Decentralized Data Storage for <span className="text-blue-400">everychain</span>.
+              Decentralized Data Storage for{" "}
+              <span className="text-blue-400">everychain</span>.
             </p>
 
             {isLoading ? <Spinner /> : <DynamicWidget />}
-          </>}
-
-
+          </>
+        )}
       </div>
     </div>
   );
