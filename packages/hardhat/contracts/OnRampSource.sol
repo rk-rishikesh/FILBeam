@@ -1,21 +1,12 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.17;
 
-import {Cid} from "./Cid.sol";
-import {TRUNCATOR} from "./Const.sol";
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {IAxelarGateway} from "@axelar-network/axelar-gmp-sdk-solidity/contracts/interfaces/IAxelarGateway.sol";
-import {IAxelarGasService} from "@axelar-network/axelar-gmp-sdk-solidity/contracts/interfaces/IAxelarGasService.sol";
+import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import { IAxelarGateway } from "@axelar-network/axelar-gmp-sdk-solidity/contracts/interfaces/IAxelarGateway.sol";
+import { IAxelarGasService } from "@axelar-network/axelar-gmp-sdk-solidity/contracts/interfaces/IAxelarGasService.sol";
 import { AxelarExecutable } from "@axelar-network/axelar-gmp-sdk-solidity/contracts/executable/AxelarExecutable.sol";
 
-struct DataAttestation {
-    bytes commP;
-    int64 duration;
-    uint64 FILID;
-    uint status;
-}
-
-contract OnRampContract is AxelarExecutable{
+contract OnRampSource is AxelarExecutable {
     struct Offer {
         bytes commP;
         uint64 size;
@@ -23,18 +14,14 @@ contract OnRampContract is AxelarExecutable{
         uint256 amount;
         IERC20 token;
     }
-    // Possible rearrangement:
-    // struct Hint {string location, uint64 size} ?
-    // struct Payment {uint256 amount, IERC20 token}?
 
     event DataReady(Offer offer, uint64 id);
+    uint64 private nextOfferId = 1;
+    mapping(uint64 => Offer) public offers;
 
     IAxelarGasService public gasService;
-    uint64 private nextOfferId = 1;
-    uint64 private nextAggregateID = 1;
-    address public dataProofOracle;
 
-    mapping(uint64 => Offer) public offers;
+    // Mappings for aggregation data
     mapping(uint64 => uint64[]) public aggregations;
     mapping(uint64 => address) public aggregationPayout;
     mapping(uint64 => bool) public provenAggregations;
@@ -44,21 +31,17 @@ contract OnRampContract is AxelarExecutable{
         gasService = IAxelarGasService(gasService_);
     }
 
-    //Process the storage requests from the users, send the 
-   function offerData(
+    function offerData(
         Offer calldata offer,
         string calldata destinationChain,
         string calldata destinationAddress
     ) external payable returns (uint64) {
-        require(
-            offer.token.transferFrom(msg.sender, address(this), offer.amount),
-            "Payment transfer failed"
-        );
 
         uint64 id = nextOfferId++;
         offers[id] = offer;
 
-        bytes memory payload = abi.encode(offer);
+        // Prepare payload
+        bytes memory payload = abi.encode("DataReady", offer, id);
 
         // Pay for gas
         if (msg.value > 0) {
@@ -106,27 +89,5 @@ contract OnRampContract is AxelarExecutable{
             revert("Unknown message type");
         }
     }
-
-    // Called by oracle to prove the data is stored
-    function proveDataStored(DataAttestation calldata attestation) external {
-        require(
-            msg.sender == dataProofOracle,
-            "Only oracle can prove data stored"
-        );
-        uint64 aggID = commPToAggregateID[attestation.commP];
-        require(aggID != 0, "Aggregate not found");
-
-        // transfer payment to the receiver
-        for (uint i = 0; i < aggregations[aggID].length; i++) {
-            uint64 offerID = aggregations[aggID][i];
-            require(
-                offers[offerID].token.transfer(
-                    aggregationPayout[aggID],
-                    offers[offerID].amount
-                ),
-                "Payment transfer failed"
-            );
-        }
-        provenAggregations[aggID] = true;
-    }
 }
+

@@ -1,4 +1,0 @@
-@zondax/solidity-bignumber=lib/filecoin-solidity/contracts/vendor/solidity-BigNumber
-filecoin-solidity/=lib/filecoin-solidity/
-solidity-bignumber=lib/filecoin-solidity/contracts/vendor/solidity-BigNumber
-@openzeppelin/=lib/openzeppelin-contracts
