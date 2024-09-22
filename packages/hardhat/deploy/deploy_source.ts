@@ -33,7 +33,7 @@ const deployYourContract: DeployFunction = async function (
   let axelarGasReceiver;
 
   if (hederaNetwork) {
-    axelarGatewayAddress = "0xB8Cd93C83A974649D76B1c19f311f639e62272BC";
+    axelarGatewayAddress = "0xe432150cce91c13a887f7D836923d5597adD8E31";
     axelarGasReceiver = "0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6";
   } else if (linearNetwork) {
     axelarGatewayAddress = "0xe432150cce91c13a887f7D836923d5597adD8E31";

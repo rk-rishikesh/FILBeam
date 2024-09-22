@@ -144,6 +144,7 @@ const config: HardhatUserConfig = {
     apiKey: {
       linea: "RXVBE8WNAMCZ3UABT1XIHXE1YAY9H72TEF", // Your Etherscan API key
       hedera: "RXVBE8WNAMCZ3UABT1XIHXE1YAY9H72TEF", // Your Etherscan API key
+      flow: "RXVBE8WNAMCZ3UABT1XIHXE1YAY9H72TEF", // Your Etherscan API key
     },
     customChains: [
       {
